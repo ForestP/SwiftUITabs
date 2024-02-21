@@ -11,7 +11,13 @@
 		851F3DA02B8527B400E32171 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 851F3D9F2B8527B400E32171 /* Assets.xcassets */; };
 		851F3DA32B8527B400E32171 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 851F3DA22B8527B400E32171 /* Preview Assets.xcassets */; };
 		851F3DAD2B85348B00E32171 /* TabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851F3DAC2B85348B00E32171 /* TabsView.swift */; };
-		851F3DB12B85638B00E32171 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851F3DB02B85638B00E32171 /* CardView.swift */; };
+		851F3DB12B85638B00E32171 /* TabCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851F3DB02B85638B00E32171 /* TabCardView.swift */; };
+		85B786E72B8687CC00D421F8 /* WebViewTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B786E62B8687CC00D421F8 /* WebViewTab.swift */; };
+		85C212C12B85E6A100D04287 /* CardContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C212C02B85E6A100D04287 /* CardContextMenu.swift */; };
+		85D9BEE12B857FEA005069A3 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D9BEE02B857FEA005069A3 /* RootView.swift */; };
+		85DB3DA12B867BAC00994E92 /* ScrollViewOffsetReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DB3DA02B867BAC00994E92 /* ScrollViewOffsetReader.swift */; };
+		85DB3DA42B867C9D00994E92 /* OffsetPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DB3DA32B867C9D00994E92 /* OffsetPreferenceKey.swift */; };
+		85DB3DA62B867DCF00994E92 /* ScrollViewOffsetListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DB3DA52B867DCF00994E92 /* ScrollViewOffsetListener.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,7 +26,13 @@
 		851F3D9F2B8527B400E32171 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		851F3DA22B8527B400E32171 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		851F3DAC2B85348B00E32171 /* TabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsView.swift; sourceTree = "<group>"; };
-		851F3DB02B85638B00E32171 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		851F3DB02B85638B00E32171 /* TabCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabCardView.swift; sourceTree = "<group>"; };
+		85B786E62B8687CC00D421F8 /* WebViewTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewTab.swift; sourceTree = "<group>"; };
+		85C212C02B85E6A100D04287 /* CardContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardContextMenu.swift; sourceTree = "<group>"; };
+		85D9BEE02B857FEA005069A3 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		85DB3DA02B867BAC00994E92 /* ScrollViewOffsetReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewOffsetReader.swift; sourceTree = "<group>"; };
+		85DB3DA32B867C9D00994E92 /* OffsetPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffsetPreferenceKey.swift; sourceTree = "<group>"; };
+		85DB3DA52B867DCF00994E92 /* ScrollViewOffsetListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewOffsetListener.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,9 +65,10 @@
 		851F3D9A2B8527B000E32171 /* RoamTabs */ = {
 			isa = PBXGroup;
 			children = (
-				851F3DA92B85295C00E32171 /* Vews */,
 				851F3D9B2B8527B000E32171 /* RoamTabsApp.swift */,
 				851F3D9F2B8527B400E32171 /* Assets.xcassets */,
+				85B786E52B8687C100D421F8 /* Models */,
+				851F3DA92B85295C00E32171 /* Views */,
 				851F3DA12B8527B400E32171 /* Preview Content */,
 			);
 			path = RoamTabs;
@@ -69,13 +82,42 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		851F3DA92B85295C00E32171 /* Vews */ = {
+		851F3DA92B85295C00E32171 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				851F3DAC2B85348B00E32171 /* TabsView.swift */,
-				851F3DB02B85638B00E32171 /* CardView.swift */,
+				85D9BEE02B857FEA005069A3 /* RootView.swift */,
+				85DB3DA22B867C8300994E92 /* ScrollViewOffsetReader */,
+				85D9BEDF2B857FD1005069A3 /* TabsView */,
 			);
-			path = Vews;
+			path = Views;
+			sourceTree = "<group>";
+		};
+		85B786E52B8687C100D421F8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				85B786E62B8687CC00D421F8 /* WebViewTab.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		85D9BEDF2B857FD1005069A3 /* TabsView */ = {
+			isa = PBXGroup;
+			children = (
+				85C212C02B85E6A100D04287 /* CardContextMenu.swift */,
+				851F3DB02B85638B00E32171 /* TabCardView.swift */,
+				851F3DAC2B85348B00E32171 /* TabsView.swift */,
+			);
+			path = TabsView;
+			sourceTree = "<group>";
+		};
+		85DB3DA22B867C8300994E92 /* ScrollViewOffsetReader */ = {
+			isa = PBXGroup;
+			children = (
+				85DB3DA32B867C9D00994E92 /* OffsetPreferenceKey.swift */,
+				85DB3DA52B867DCF00994E92 /* ScrollViewOffsetListener.swift */,
+				85DB3DA02B867BAC00994E92 /* ScrollViewOffsetReader.swift */,
+			);
+			path = ScrollViewOffsetReader;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -148,9 +190,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85DB3DA62B867DCF00994E92 /* ScrollViewOffsetListener.swift in Sources */,
+				85C212C12B85E6A100D04287 /* CardContextMenu.swift in Sources */,
+				85B786E72B8687CC00D421F8 /* WebViewTab.swift in Sources */,
+				85D9BEE12B857FEA005069A3 /* RootView.swift in Sources */,
+				85DB3DA12B867BAC00994E92 /* ScrollViewOffsetReader.swift in Sources */,
 				851F3DAD2B85348B00E32171 /* TabsView.swift in Sources */,
 				851F3D9C2B8527B000E32171 /* RoamTabsApp.swift in Sources */,
-				851F3DB12B85638B00E32171 /* CardView.swift in Sources */,
+				85DB3DA42B867C9D00994E92 /* OffsetPreferenceKey.swift in Sources */,
+				851F3DB12B85638B00E32171 /* TabCardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
