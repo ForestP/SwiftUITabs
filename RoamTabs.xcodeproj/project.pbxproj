@@ -8,17 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		851F3D9C2B8527B000E32171 /* RoamTabsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851F3D9B2B8527B000E32171 /* RoamTabsApp.swift */; };
-		851F3D9E2B8527B000E32171 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851F3D9D2B8527B000E32171 /* ContentView.swift */; };
 		851F3DA02B8527B400E32171 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 851F3D9F2B8527B400E32171 /* Assets.xcassets */; };
 		851F3DA32B8527B400E32171 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 851F3DA22B8527B400E32171 /* Preview Assets.xcassets */; };
+		851F3DAD2B85348B00E32171 /* TabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851F3DAC2B85348B00E32171 /* TabsView.swift */; };
+		851F3DB12B85638B00E32171 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851F3DB02B85638B00E32171 /* CardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		851F3D982B8527B000E32171 /* RoamTabs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RoamTabs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		851F3D9B2B8527B000E32171 /* RoamTabsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoamTabsApp.swift; sourceTree = "<group>"; };
-		851F3D9D2B8527B000E32171 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		851F3D9F2B8527B400E32171 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		851F3DA22B8527B400E32171 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		851F3DAC2B85348B00E32171 /* TabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsView.swift; sourceTree = "<group>"; };
+		851F3DB02B85638B00E32171 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,8 +53,8 @@
 		851F3D9A2B8527B000E32171 /* RoamTabs */ = {
 			isa = PBXGroup;
 			children = (
+				851F3DA92B85295C00E32171 /* Vews */,
 				851F3D9B2B8527B000E32171 /* RoamTabsApp.swift */,
-				851F3D9D2B8527B000E32171 /* ContentView.swift */,
 				851F3D9F2B8527B400E32171 /* Assets.xcassets */,
 				851F3DA12B8527B400E32171 /* Preview Content */,
 			);
@@ -65,6 +67,15 @@
 				851F3DA22B8527B400E32171 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		851F3DA92B85295C00E32171 /* Vews */ = {
+			isa = PBXGroup;
+			children = (
+				851F3DAC2B85348B00E32171 /* TabsView.swift */,
+				851F3DB02B85638B00E32171 /* CardView.swift */,
+			);
+			path = Vews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,8 +148,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				851F3D9E2B8527B000E32171 /* ContentView.swift in Sources */,
+				851F3DAD2B85348B00E32171 /* TabsView.swift in Sources */,
 				851F3D9C2B8527B000E32171 /* RoamTabsApp.swift in Sources */,
+				851F3DB12B85638B00E32171 /* CardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
