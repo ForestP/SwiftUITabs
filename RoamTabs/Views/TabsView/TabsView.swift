@@ -84,8 +84,6 @@ struct TabsView: View {
                             scrollViewHeight: geometryReader.size.height,
                             offset: Self.bottomSpacerHeight
                         )
-                    
-                    
                 }
                 .scrollViewOffsetListener(
                     perform: {
@@ -130,7 +128,11 @@ struct TabsView: View {
     /// Dynamically Space Tabs
     var cardSpacing: CGFloat {
         switch self.tabs.count {
-        case 1...5:
+        case 1:
+            250
+        case 2...3:
+            150
+        case 4...5:
             100
         default:
             80

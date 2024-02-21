@@ -3,8 +3,6 @@ import SwiftUI
 class TabCardDragOffsetModel: ObservableObject {
     @Published
     var dragOffsetX: CGFloat = .zero
-    
-    
 }
 
 struct TabCardView: View {
@@ -28,6 +26,7 @@ struct TabCardView: View {
     
     var body: some View {
         Rectangle()
+            .foregroundStyle(.clear)
             .contentShape(Rectangle())
             .frame(maxWidth: .infinity)
             .frame(height: self.cardSpacing)
@@ -66,39 +65,30 @@ struct TabCardView: View {
                     .foregroundStyle(.clear)
                     .contentShape(Rectangle())
                     .frame(height: Self.cardTrueHeight)
-//                    .gesture(
-//                        LongPressGesture(
-//                            minimumDuration: 1,
-//                            maximumDistance: 5.0
-//                        ).onEnded({ isPressed in
-//                            print("pressed: ", isPressed)
-//                            
-//
-//                            self.isContextMenuPresented = true
-//                        })
-//                    )
-                    .gesture(DragGesture()
-                        .onChanged({ gesture in
-                            self.offsetViewModel.dragOffsetX = gesture.translation.width
+                    .gesture(
+                        DragGesture()
+                            .onChanged({ gesture in
+                                self.offsetViewModel.dragOffsetX = gesture.translation.width
+                                
+                                switch gesture.translation.width.sign {
+                                case .plus:
+                                    self.transitionEdge = .trailing
+                                case .minus:
+                                    self.transitionEdge = .leading
+                                }
+                            })
+                            .onEnded({ gesture in
+                                
+                                if abs(self.offsetViewModel.dragOffsetX) > 60 {
+                                    self.closeTab()
+                                }
+                                
+                                withAnimation {
+                                    self.offsetViewModel.dragOffsetX = 0
+                                }
                             
-                            switch gesture.translation.width.sign {
-                            case .plus:
-                                self.transitionEdge = .trailing
-                            case .minus:
-                                self.transitionEdge = .leading
-                            }
-                        })
-                        .onEnded({ gesture in
-                            
-                            if abs(self.offsetViewModel.dragOffsetX) > 100 {
-                                self.closeTab()
-                            }
-                            
-                            withAnimation {
-                                self.offsetViewModel.dragOffsetX = 0
-                            }
-                            
-                    }))
+                            })
+                    )
                     .onReceive(
                         self.offsetViewModel.$dragOffsetX.debounce(
                             for: 0.2,
