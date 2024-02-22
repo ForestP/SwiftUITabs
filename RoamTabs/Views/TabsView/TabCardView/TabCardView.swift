@@ -1,28 +1,49 @@
+import Combine
 import SwiftUI
 
-class TabCardDragOffsetModel: ObservableObject {
-    @Published
-    var dragOffsetX: CGFloat = .zero
-}
-
-struct TabCardView: View {
-    var tab: WebViewTab
-    var cardSpacing: CGFloat
-    
-    let depthOffset: CGFloat
-    let angle: Angle
-    
-    let closeTab: () -> Void
-    let closeAllTabs: () -> Void
-    
+struct TabCardView<
+    Title: View,
+    Content: View
+>: View {
     @StateObject
     var offsetViewModel: TabCardDragOffsetModel = .init()
     
     @State
     var transitionEdge: Edge = .bottom
     
-    @State
-    var isContextMenuPresented: Bool = false
+    let angle: Angle
+    var cardSpacing: CGFloat
+    let depthOffset: CGFloat
+    let visibleCardHeight: CGFloat
+    
+    let closeTab: () -> Void
+    let closeAllTabs: () -> Void
+    
+    @ViewBuilder
+    let title: Title
+    
+    @ViewBuilder
+    let content: Content
+    
+    init(
+        cardSpacing: CGFloat,
+        depthOffset: CGFloat,
+        angle: Angle,
+        visibleCardHeight: CGFloat = 250,
+        @ViewBuilder title: @escaping () -> Title,
+        @ViewBuilder content: @escaping () -> Content,
+        closeTab: @escaping () -> Void,
+        closeAllTabs: @escaping () -> Void
+    ) {
+        self.cardSpacing = cardSpacing
+        self.depthOffset = depthOffset
+        self.angle = angle
+        self.visibleCardHeight = visibleCardHeight
+        self.closeTab = closeTab
+        self.closeAllTabs = closeAllTabs
+        self.title = title()
+        self.content = content()
+    }
     
     var body: some View {
         Rectangle()
@@ -31,29 +52,30 @@ struct TabCardView: View {
             .frame(maxWidth: .infinity)
             .frame(height: self.cardSpacing)
             .background(content: {
-                RoundedRectangle(cornerRadius: Self.cardRadius)
-                    .foregroundStyle(tab.color)
+                self.content
                     .overlay(content: {
-                        RoundedRectangle(cornerRadius: Self.cardRadius)
-                            .foregroundStyle(.black.opacity(0.15))
+                        Color.black
+                            .opacity(0.15)
+                            .mask(self.content)
                     })
-                    .frame(height: Self.cardTrueHeight)
+                    .frame(height: self.visibleCardHeight)
                     .offset(y: self.depthOffset)
             })
             .offset(x: self.offsetViewModel.dragOffsetX)
             .overlay(content: {
-                RoundedRectangle(cornerRadius: Self.cardRadius)
-                    .foregroundStyle(tab.color)
+                self.content
                     .frame(maxWidth: .infinity)
-                    .frame(height: Self.cardTrueHeight)
+                    .frame(height: self.visibleCardHeight)
                     .offset(x: self.offsetViewModel.dragOffsetX)
                 
             })
+            /// Parallax Rotation
             .rotation3DEffect(
                 self.angle,
                 axis: (x: 1.0, y: 0.0, z: 0.0),
                 perspective: 0.6
             )
+            /// Dismiss Swipe Rotation
             .rotation3DEffect(
                 .degrees(self.offsetViewModel.dragOffsetX / 10),
                 axis: (x: 0.0, y: 0.0, z: 1.0)
@@ -64,7 +86,7 @@ struct TabCardView: View {
                 Rectangle()
                     .foregroundStyle(.clear)
                     .contentShape(Rectangle())
-                    .frame(height: Self.cardTrueHeight)
+                    .frame(height: self.visibleCardHeight)
                     .gesture(
                         DragGesture()
                             .onChanged({ gesture in
@@ -89,47 +111,30 @@ struct TabCardView: View {
                             
                             })
                     )
-                    .onReceive(
-                        self.offsetViewModel.$dragOffsetX.debounce(
-                            for: 0.2,
-                            scheduler: RunLoop.main
-                        )
-                    ) { seachTerm in
-                        guard !self.offsetViewModel.dragOffsetX.isZero else { return }
+                    .onReceive(self.offsetViewModel.debounced) { seachTerm in
+                        guard !self.offsetViewModel.dragOffsetX.isZero else {
+                            return
+                        }
 
                         withAnimation {
                             self.offsetViewModel.dragOffsetX = 0
                         }
                     }
             })
-            // MARK: - TabTitle
+            // MARK: - Card Title
             .overlay(content: {
                 Rectangle()
                     .foregroundStyle(.clear)
                     .contentShape(Rectangle())
-                    .frame(height: Self.cardTrueHeight)
+                    .frame(height: self.visibleCardHeight)
                     .overlay(alignment: .topLeading) {
-                        HStack {
-                            Circle()
-                                .foregroundStyle(tab.color)
-                                .frame(width: 16, height: 16)
-                            
-                            Text(tab.title.capitalized)
-                                .font(.headline)
-                                .foregroundStyle(.white)
-                            
-                        }
-                        .padding(.vertical, 4)
-                        .padding(.horizontal, 8)
-                        .background(.ultraThinMaterial)
-                        .clipShape(Capsule())
-                        .padding(2)
+                        self.title
                     }
                     .offset(
                         x: self.depthOffset * 4,
                         y: -self.depthOffset * 8
                     )
-                    .offset(x: self.offsetViewModel.dragOffsetX )
+                    .offset(x: self.offsetViewModel.dragOffsetX * 1.2 )
                     .rotation3DEffect(
                         .degrees(self.offsetViewModel.dragOffsetX / 10),
                         axis: (x: 0.0, y: 0.0, z: 1.0)
@@ -142,18 +147,21 @@ struct TabCardView: View {
     }
 }
 
-// MARK: - TabCardView Constants
-extension TabCardView {
-    static let cardTrueHeight: CGFloat = 250
-    static let cardRadius: CGFloat = 25.0
-}
-
 #Preview {
     TabCardView(
-        tab: .init(color: .blue),
         cardSpacing: 100,
-        depthOffset: -4 ,
+        depthOffset: -4,
         angle: .degrees(-40),
+        title: {
+            Text("Title")
+                .padding(.horizontal)
+                .foregroundStyle(.white)
+                .fontWeight(.semibold)
+        },
+        content: {
+            RoundedRectangle(cornerRadius: 25.0)
+                .foregroundStyle(.blue)
+        },
         closeTab: {
             print("close tab")
         },

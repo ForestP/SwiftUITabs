@@ -13,6 +13,8 @@
 		851F3DAD2B85348B00E32171 /* TabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851F3DAC2B85348B00E32171 /* TabsView.swift */; };
 		851F3DB12B85638B00E32171 /* TabCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851F3DB02B85638B00E32171 /* TabCardView.swift */; };
 		85B786E72B8687CC00D421F8 /* WebViewTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B786E62B8687CC00D421F8 /* WebViewTab.swift */; };
+		85B786EA2B86B73200D421F8 /* TabCardDragOffsetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B786E92B86B73200D421F8 /* TabCardDragOffsetModel.swift */; };
+		85B786EC2B86C5D300D421F8 /* ActiveTabSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B786EB2B86C5D300D421F8 /* ActiveTabSheet.swift */; };
 		85C212C12B85E6A100D04287 /* CardContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C212C02B85E6A100D04287 /* CardContextMenu.swift */; };
 		85D9BEE12B857FEA005069A3 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D9BEE02B857FEA005069A3 /* RootView.swift */; };
 		85DB3DA12B867BAC00994E92 /* ScrollViewOffsetReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DB3DA02B867BAC00994E92 /* ScrollViewOffsetReader.swift */; };
@@ -28,6 +30,8 @@
 		851F3DAC2B85348B00E32171 /* TabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsView.swift; sourceTree = "<group>"; };
 		851F3DB02B85638B00E32171 /* TabCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabCardView.swift; sourceTree = "<group>"; };
 		85B786E62B8687CC00D421F8 /* WebViewTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewTab.swift; sourceTree = "<group>"; };
+		85B786E92B86B73200D421F8 /* TabCardDragOffsetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabCardDragOffsetModel.swift; sourceTree = "<group>"; };
+		85B786EB2B86C5D300D421F8 /* ActiveTabSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveTabSheet.swift; sourceTree = "<group>"; };
 		85C212C02B85E6A100D04287 /* CardContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardContextMenu.swift; sourceTree = "<group>"; };
 		85D9BEE02B857FEA005069A3 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		85DB3DA02B867BAC00994E92 /* ScrollViewOffsetReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewOffsetReader.swift; sourceTree = "<group>"; };
@@ -85,6 +89,7 @@
 		851F3DA92B85295C00E32171 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				85B786EB2B86C5D300D421F8 /* ActiveTabSheet.swift */,
 				85D9BEE02B857FEA005069A3 /* RootView.swift */,
 				85DB3DA22B867C8300994E92 /* ScrollViewOffsetReader */,
 				85D9BEDF2B857FD1005069A3 /* TabsView */,
@@ -100,11 +105,20 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		85B786E82B86B71000D421F8 /* TabCardView */ = {
+			isa = PBXGroup;
+			children = (
+				851F3DB02B85638B00E32171 /* TabCardView.swift */,
+				85B786E92B86B73200D421F8 /* TabCardDragOffsetModel.swift */,
+			);
+			path = TabCardView;
+			sourceTree = "<group>";
+		};
 		85D9BEDF2B857FD1005069A3 /* TabsView */ = {
 			isa = PBXGroup;
 			children = (
+				85B786E82B86B71000D421F8 /* TabCardView */,
 				85C212C02B85E6A100D04287 /* CardContextMenu.swift */,
-				851F3DB02B85638B00E32171 /* TabCardView.swift */,
 				851F3DAC2B85348B00E32171 /* TabsView.swift */,
 			);
 			path = TabsView;
@@ -192,6 +206,8 @@
 			files = (
 				85DB3DA62B867DCF00994E92 /* ScrollViewOffsetListener.swift in Sources */,
 				85C212C12B85E6A100D04287 /* CardContextMenu.swift in Sources */,
+				85B786EA2B86B73200D421F8 /* TabCardDragOffsetModel.swift in Sources */,
+				85B786EC2B86C5D300D421F8 /* ActiveTabSheet.swift in Sources */,
 				85B786E72B8687CC00D421F8 /* WebViewTab.swift in Sources */,
 				85D9BEE12B857FEA005069A3 /* RootView.swift in Sources */,
 				85DB3DA12B867BAC00994E92 /* ScrollViewOffsetReader.swift in Sources */,

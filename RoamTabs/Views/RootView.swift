@@ -16,12 +16,52 @@ struct RootView: View {
     var body: some View {
         TabsView(
             tabs: self.$tabs,
-            bottomTabId: self.$bottomTabId
-        ) { selectedTab in
-            withAnimation {
-                self.selectedTab = selectedTab
+            bottomTabId: self.$bottomTabId,
+            tabTitle: { tab in
+                HStack {
+                    Circle()
+                        .foregroundStyle(tab.color)
+                        .frame(width: 16, height: 16)
+                    
+                    Text(tab.title.capitalized)
+                        .font(.headline)
+                        .foregroundStyle(.white)
+                    
+                }
+                .padding(.vertical, 4)
+                .padding(.horizontal, 8)
+                .background(.ultraThinMaterial)
+                .clipShape(Capsule())
+                .padding(2)
+            },
+            tabContent: {
+                RoundedRectangle(cornerRadius: 25.0)
+                    .foregroundStyle($0.color)
+            },
+            selectTab: { selectedTab, index in
+                /// Update Tab lastViewed
+                var tab = selectedTab
+                tab.lastViewed = .now
+                
+                /// Present Selcted Tab
+                withAnimation {
+                    self.selectedTab = selectedTab
+                }
+                
+                /// Update Tabs Order
+                var tabs = self.tabs
+                tabs.remove(at: index)
+                tabs.append(tab)
+                
+                /// Set Updated Tabs After Delay
+                /// (Update Behind Presented Tab)
+                DispatchQueue.main.asyncAfter(
+                    deadline: .now().advanced(by: .milliseconds(500)),
+                    execute: { self.tabs = tabs }
+                )
             }
-        }
+        )
+        // Dismiss Selected Tab on BG Tap
         .onTapGesture {
             guard self.selectedTab != nil else { return }
             
@@ -56,36 +96,10 @@ struct RootView: View {
             .clipShape(Capsule())
         }
         .overlay {
-            GeometryReader { reader in
-                Rectangle()
-                    .foregroundStyle(.clear)
-                    .offset(
-                        y: self.selectedTab == nil ? -(reader.size.height + reader.safeAreaInsets.top) : 0
-                    )
-                    .overlay(content: {
-                        self.selectedTab?.color
-                            .overlay(alignment: .bottom, content: {
-                                Button {
-                                    withAnimation {
-                                        self.selectedTab = nil
-                                    }
-                                } label: {
-                                    Text("Close Tab")
-                                        .fontWeight(.semibold)
-                                }
-                                .foregroundStyle(.foreground)
-                                .padding()
-
-                            })
-                            .clipShape(UnevenRoundedRectangle(
-                                cornerRadii: .init(
-                                    bottomLeading: 45.0,
-                                    bottomTrailing: 45.0
-                                ),
-                                style: .continuous
-                            ))
-                            .transition(.move(edge: .top))
-                    })
+            ActiveTabSheet(
+                selectedTab: self.$selectedTab
+            ) {
+                self.selectedTab?.color
             }
             .edgesIgnoringSafeArea(.top)
         }

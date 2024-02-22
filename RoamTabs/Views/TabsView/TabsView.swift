@@ -1,6 +1,10 @@
 import SwiftUI
 
-struct TabsView: View {
+struct TabsView<
+    Tab: Identifiable,
+    CardContent: View,
+    CardTitle: View
+>: View {
     
     @State
     var offset: CGFloat = 0.0
@@ -9,20 +13,25 @@ struct TabsView: View {
     var isClosingTab: Bool = false
     
     @Binding
-    var tabs: [WebViewTab]
+    var tabs: [Tab]
     
     @Binding
-    var bottomTabId: UUID?
+    var bottomTabId: Tab.ID?
     
-    let selectTab: (WebViewTab) -> Void
+    @ViewBuilder
+    let tabTitle: (Tab) -> CardTitle
     
+    @ViewBuilder
+    let tabContent: (Tab) -> CardContent
+    
+    let selectTab: (Tab, Int) -> Void
     
     var body: some View {
         GeometryReader { geometryReader in
             ScrollView {
                 VStack {
                     Rectangle()
-                        .frame(height: Self.topSpacerHeight)
+                        .frame(height: TabsViewConstants.topSpacerHeight)
                         .contentShape(Rectangle())
                         .foregroundStyle(.clear)
                         .allowsHitTesting(false)
@@ -30,12 +39,9 @@ struct TabsView: View {
                     ForEach(
                         Array(self.tabs.enumerated()),
                         id: \.element.id
-                    ) {
-                        index,
-                        tab in
+                    ) { index, tab in
                         
                         TabCardView(
-                            tab: tab,
                             cardSpacing: self.cardSpacing,
                             depthOffset: self.depthOffset(
                                 for: index,
@@ -45,44 +51,25 @@ struct TabsView: View {
                                 for: index,
                                 in: geometryReader.size
                             ),
+                            title: { self.tabTitle(tab) },
+                            content: { self.tabContent(tab) },
                             closeTab: { self.closeTab(at: index) },
                             closeAllTabs: { self.tabs = [] }
                         )
-                        .onTapGesture {
-                            /// Update Tab lastViewed
-                            var tab = tab
-                            tab.lastViewed = .now
-                            
-                            /// Present Selcted Tab
-                            self.selectTab(tab)
-                            
-                            /// Update Tabs Order
-                            var tabs = self.tabs
-                            tabs.remove(at: index)
-                            tabs.append(tab)
-                            
-                            /// Set Updated Tabs After Delay
-                            /// (Update Behind Presented Tab)
-                            DispatchQueue.main.asyncAfter(
-                                deadline: .now().advanced(by: .milliseconds(500)),
-                                execute: { self.tabs = tabs }
-                            )
-                            
-                        }
-                        
+                        .onTapGesture { self.selectTab(tab, index) }
                     }
                     
                     Rectangle()
                         .frame(
                             width: geometryReader.size.width,
-                            height: Self.bottomSpacerHeight
+                            height: TabsViewConstants.bottomSpacerHeight
                         )
                         .contentShape(Rectangle())
                         .foregroundStyle(.clear)
                         .allowsHitTesting(false)
                         .scrollViewOffsetReader(
                             scrollViewHeight: geometryReader.size.height,
-                            offset: Self.bottomSpacerHeight
+                            offset: TabsViewConstants.bottomSpacerHeight
                         )
                 }
                 .scrollViewOffsetListener(
@@ -111,6 +98,10 @@ struct TabsView: View {
         self.isClosingTab = true
         
         var newTabs = self.tabs
+        guard newTabs.indices.contains(index) else {
+            return
+        }
+        
         newTabs.remove(at: index)
         
         withAnimation {
@@ -144,8 +135,8 @@ struct TabsView: View {
         in viewBounds: CGSize
     ) -> CGFloat {
         -Self.interpolate(
-            min: Self.minBevelOffset,
-            max: Self.maxBevelOffset,
+            min: TabsViewConstants.minBevelOffset,
+            max: TabsViewConstants.maxBevelOffset,
             percent: offsetPercentage(
                 for: index,
                 in: viewBounds
@@ -159,8 +150,8 @@ struct TabsView: View {
     ) -> Angle {
         .degrees(
             -Self.interpolate(
-                min: Self.minAngleDegrees,
-                max: Self.maxAngleDegrees,
+                min: TabsViewConstants.minAngleDegrees,
+                max: TabsViewConstants.maxAngleDegrees,
                 percent: offsetPercentage(
                     for: index,
                     in: viewBounds
@@ -175,7 +166,9 @@ struct TabsView: View {
         for index: Int,
         in viewBounds: CGSize
     ) -> CGFloat {
-        let tabsFrameHeight = viewBounds.height - (Self.topSpacerHeight + Self.bottomSpacerHeight)
+        let tabsFrameHeight = viewBounds.height - (
+            TabsViewConstants.topSpacerHeight + TabsViewConstants.bottomSpacerHeight
+        )
         
         // The offset for the item based
         // on just its index and height
@@ -192,11 +185,19 @@ struct TabsView: View {
         
         return 1 - (clippedOffset / tabsFrameHeight)
     }
+    
+    static func interpolate(
+        min: CGFloat,
+        max: CGFloat,
+        percent: CGFloat
+    ) -> CGFloat {
+        (percent * (max - min)) + min
+    }
 }
 
 // MARK: - TabsView Constants
 
-extension TabsView {
+struct TabsViewConstants {
     // MARK: Spacers
     static let topSpacerHeight: CGFloat = 250
     static let bottomSpacerHeight: CGFloat = 200
@@ -208,14 +209,6 @@ extension TabsView {
     // MARK: Bevel Offset
     static let maxBevelOffset: CGFloat = 2.5
     static let minBevelOffset: CGFloat = 0.5
-    
-    static func interpolate(
-        min: CGFloat,
-        max: CGFloat,
-        percent: CGFloat
-    ) -> CGFloat {
-        (percent * (max - min)) + min
-    }
 }
 
 #Preview {
@@ -234,8 +227,30 @@ extension TabsView {
             WebViewTab(color: .yellow),
             WebViewTab(color: .blue)
         ]),
-        bottomTabId: .constant(nil)
-    ) {
-        print($0)
-    }
+        bottomTabId: .constant(nil),
+        tabTitle: { tab in
+            HStack {
+                Circle()
+                    .foregroundStyle(tab.color)
+                    .frame(width: 16, height: 16)
+                
+                Text(tab.title.capitalized)
+                    .font(.headline)
+                    .foregroundStyle(.white)
+                
+            }
+            .padding(.vertical, 4)
+            .padding(.horizontal, 8)
+            .background(.ultraThinMaterial)
+            .clipShape(Capsule())
+            .padding(2)
+        },
+        tabContent: {
+            RoundedRectangle(cornerRadius: 25.0)
+                .foregroundStyle($0.color)
+        },
+        selectTab: {
+            print("did select: ", $0.title, $1)
+        }
+    )
 }

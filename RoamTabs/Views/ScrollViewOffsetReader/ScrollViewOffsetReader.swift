@@ -17,7 +17,9 @@ struct ScrollViewOffsetReader: View {
         GeometryReader {
             Color.clear.preference(
                 key: OffsetPreferenceKey.self,
-                value: self.scrollViewHeight - $0.frame(in: .named("scroll")).origin.y - self.offset
+                value: self.scrollViewHeight - $0.frame(
+                    in: .named("scroll")
+                ).origin.y - self.offset
             )
         }
     }
