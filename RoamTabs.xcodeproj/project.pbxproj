@@ -15,7 +15,6 @@
 		85B786E72B8687CC00D421F8 /* WebViewTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B786E62B8687CC00D421F8 /* WebViewTab.swift */; };
 		85B786EA2B86B73200D421F8 /* TabCardDragOffsetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B786E92B86B73200D421F8 /* TabCardDragOffsetModel.swift */; };
 		85B786EC2B86C5D300D421F8 /* ActiveTabSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B786EB2B86C5D300D421F8 /* ActiveTabSheet.swift */; };
-		85C212C12B85E6A100D04287 /* CardContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C212C02B85E6A100D04287 /* CardContextMenu.swift */; };
 		85D9BEE12B857FEA005069A3 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D9BEE02B857FEA005069A3 /* RootView.swift */; };
 		85DB3DA12B867BAC00994E92 /* ScrollViewOffsetReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DB3DA02B867BAC00994E92 /* ScrollViewOffsetReader.swift */; };
 		85DB3DA42B867C9D00994E92 /* OffsetPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DB3DA32B867C9D00994E92 /* OffsetPreferenceKey.swift */; };
@@ -32,7 +31,6 @@
 		85B786E62B8687CC00D421F8 /* WebViewTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewTab.swift; sourceTree = "<group>"; };
 		85B786E92B86B73200D421F8 /* TabCardDragOffsetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabCardDragOffsetModel.swift; sourceTree = "<group>"; };
 		85B786EB2B86C5D300D421F8 /* ActiveTabSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveTabSheet.swift; sourceTree = "<group>"; };
-		85C212C02B85E6A100D04287 /* CardContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardContextMenu.swift; sourceTree = "<group>"; };
 		85D9BEE02B857FEA005069A3 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		85DB3DA02B867BAC00994E92 /* ScrollViewOffsetReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewOffsetReader.swift; sourceTree = "<group>"; };
 		85DB3DA32B867C9D00994E92 /* OffsetPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffsetPreferenceKey.swift; sourceTree = "<group>"; };
@@ -69,8 +67,8 @@
 		851F3D9A2B8527B000E32171 /* RoamTabs */ = {
 			isa = PBXGroup;
 			children = (
-				851F3D9B2B8527B000E32171 /* RoamTabsApp.swift */,
 				851F3D9F2B8527B400E32171 /* Assets.xcassets */,
+				851F3D9B2B8527B000E32171 /* RoamTabsApp.swift */,
 				85B786E52B8687C100D421F8 /* Models */,
 				851F3DA92B85295C00E32171 /* Views */,
 				851F3DA12B8527B400E32171 /* Preview Content */,
@@ -118,7 +116,6 @@
 			isa = PBXGroup;
 			children = (
 				85B786E82B86B71000D421F8 /* TabCardView */,
-				85C212C02B85E6A100D04287 /* CardContextMenu.swift */,
 				851F3DAC2B85348B00E32171 /* TabsView.swift */,
 			);
 			path = TabsView;
@@ -205,7 +202,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				85DB3DA62B867DCF00994E92 /* ScrollViewOffsetListener.swift in Sources */,
-				85C212C12B85E6A100D04287 /* CardContextMenu.swift in Sources */,
 				85B786EA2B86B73200D421F8 /* TabCardDragOffsetModel.swift in Sources */,
 				85B786EC2B86C5D300D421F8 /* ActiveTabSheet.swift in Sources */,
 				85B786E72B8687CC00D421F8 /* WebViewTab.swift in Sources */,

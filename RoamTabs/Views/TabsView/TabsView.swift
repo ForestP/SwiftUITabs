@@ -94,6 +94,20 @@ struct TabsView<
         }
     }
     
+    /// Dynamically Space Tabs
+    var cardSpacing: CGFloat {
+        switch self.tabs.count {
+        case 1:
+            250
+        case 2...3:
+            150
+        case 4...5:
+            100
+        default:
+            80
+        }
+    }
+    
     func closeTab(at index: Int) {
         self.isClosingTab = true
         
@@ -112,21 +126,6 @@ struct TabsView<
             ), execute: {
                 self.isClosingTab = false
             })
-        }
-        
-    }
-    
-    /// Dynamically Space Tabs
-    var cardSpacing: CGFloat {
-        switch self.tabs.count {
-        case 1:
-            250
-        case 2...3:
-            150
-        case 4...5:
-            100
-        default:
-            80
         }
     }
     

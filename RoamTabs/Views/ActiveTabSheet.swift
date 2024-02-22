@@ -18,19 +18,10 @@ struct ActiveTabSheet<
                 .overlay(content: {
                     if selectedTab != nil {
                         self.tabContent
-                            .overlay(alignment: .bottom, content: {
-                                Button {
-                                    withAnimation {
-                                        self.selectedTab = nil
-                                    }
-                                } label: {
-                                    Text("Close Tab")
-                                        .fontWeight(.semibold)
-                                }
-                                .foregroundStyle(.foreground)
-                                .padding()
-                                
-                            })
+                            .overlay(
+                                alignment: .bottom,
+                                content: { self.closeButton }
+                            )
                             .clipShape(UnevenRoundedRectangle(
                                 cornerRadii: .init(
                                     bottomLeading: 45.0,
@@ -42,6 +33,20 @@ struct ActiveTabSheet<
                     }
                 })
         }
+    }
+    
+    @ViewBuilder
+    var closeButton: some View {
+        Button {
+            withAnimation {
+                self.selectedTab = nil
+            }
+        } label: {
+            Text("Close Tab")
+                .fontWeight(.semibold)
+        }
+        .foregroundStyle(.foreground)
+        .padding()
     }
     
 }

@@ -51,6 +51,7 @@ struct TabCardView<
             .contentShape(Rectangle())
             .frame(maxWidth: .infinity)
             .frame(height: self.cardSpacing)
+            /// Depth Effect
             .background(content: {
                 self.content
                     .overlay(content: {
@@ -62,6 +63,7 @@ struct TabCardView<
                     .offset(y: self.depthOffset)
             })
             .offset(x: self.offsetViewModel.dragOffsetX)
+            /// Card Content
             .overlay(content: {
                 self.content
                     .frame(maxWidth: .infinity)
@@ -75,7 +77,7 @@ struct TabCardView<
                 axis: (x: 1.0, y: 0.0, z: 0.0),
                 perspective: 0.6
             )
-            /// Dismiss Swipe Rotation
+            /// Swipe Dismiss Rotation
             .rotation3DEffect(
                 .degrees(self.offsetViewModel.dragOffsetX / 10),
                 axis: (x: 0.0, y: 0.0, z: 1.0)
@@ -83,67 +85,77 @@ struct TabCardView<
             .transition(.move(edge: self.transitionEdge))
             // MARK: - Drag Gesture Overlay
             .overlay(content: {
-                Rectangle()
-                    .foregroundStyle(.clear)
-                    .contentShape(Rectangle())
-                    .frame(height: self.visibleCardHeight)
-                    .gesture(
-                        DragGesture()
-                            .onChanged({ gesture in
-                                self.offsetViewModel.dragOffsetX = gesture.translation.width
-                                
-                                switch gesture.translation.width.sign {
-                                case .plus:
-                                    self.transitionEdge = .trailing
-                                case .minus:
-                                    self.transitionEdge = .leading
-                                }
-                            })
-                            .onEnded({ gesture in
-                                
-                                if abs(self.offsetViewModel.dragOffsetX) > 60 {
-                                    self.closeTab()
-                                }
-                                
-                                withAnimation {
-                                    self.offsetViewModel.dragOffsetX = 0
-                                }
-                            
-                            })
-                    )
-                    .onReceive(self.offsetViewModel.debounced) { seachTerm in
-                        guard !self.offsetViewModel.dragOffsetX.isZero else {
-                            return
-                        }
-
-                        withAnimation {
-                            self.offsetViewModel.dragOffsetX = 0
-                        }
-                    }
+                self.dragDismissHandler
             })
             // MARK: - Card Title
             .overlay(content: {
-                Rectangle()
-                    .foregroundStyle(.clear)
-                    .contentShape(Rectangle())
-                    .frame(height: self.visibleCardHeight)
-                    .overlay(alignment: .topLeading) {
-                        self.title
-                    }
-                    .offset(
-                        x: self.depthOffset * 4,
-                        y: -self.depthOffset * 8
-                    )
-                    .offset(x: self.offsetViewModel.dragOffsetX * 1.2 )
-                    .rotation3DEffect(
-                        .degrees(self.offsetViewModel.dragOffsetX / 10),
-                        axis: (x: 0.0, y: 0.0, z: 1.0)
-                    )
-                    .allowsHitTesting(false)
-                
+                self.cardTitle
             })
             .padding(.horizontal, 80)
         
+    }
+    
+    @ViewBuilder
+    var cardTitle: some View {
+        Rectangle()
+            .foregroundStyle(.clear)
+            .contentShape(Rectangle())
+            .frame(height: self.visibleCardHeight)
+            .overlay(alignment: .topLeading) {
+                self.title
+            }
+            .offset(
+                x: self.depthOffset * 4,
+                y: -self.depthOffset * 8
+            )
+            .offset(x: self.offsetViewModel.dragOffsetX * 1.2 )
+            .rotation3DEffect(
+                .degrees(self.offsetViewModel.dragOffsetX / 10),
+                axis: (x: 0.0, y: 0.0, z: 1.0)
+            )
+            .allowsHitTesting(false)
+        
+    }
+    
+    @ViewBuilder
+    var dragDismissHandler: some View {
+        Rectangle()
+            .foregroundStyle(.clear)
+            .contentShape(Rectangle())
+            .frame(height: self.visibleCardHeight)
+            .gesture(
+                DragGesture()
+                    .onChanged({ gesture in
+                        self.offsetViewModel.dragOffsetX = gesture.translation.width
+                        
+                        switch gesture.translation.width.sign {
+                        case .plus:
+                            self.transitionEdge = .trailing
+                        case .minus:
+                            self.transitionEdge = .leading
+                        }
+                    })
+                    .onEnded({ gesture in
+                        
+                        if abs(self.offsetViewModel.dragOffsetX) > 60 {
+                            self.closeTab()
+                        }
+                        
+                        withAnimation {
+                            self.offsetViewModel.dragOffsetX = 0
+                        }
+                    
+                    })
+            )
+            .onReceive(self.offsetViewModel.debounced) { seachTerm in
+                guard !self.offsetViewModel.dragOffsetX.isZero else {
+                    return
+                }
+
+                withAnimation {
+                    self.offsetViewModel.dragOffsetX = 0
+                }
+            }
     }
 }
 
